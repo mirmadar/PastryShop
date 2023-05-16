@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="cart.css">
+<head>
+  <title>Cart</title>
+  <style>
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            background-image: url('back1.jpg');
+            background-size: cover;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+<h1>Корзина</h1>
+<table>
+  <thead>
+  <tr>
+    <th>Название</th>
+    <th>Количество</th>
+    <th>Цена</th>
+    <th th:if="${cart.items.size() > 0}"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- Для каждого товара в корзине -->
+  <th:block th:each="item : ${cart.items}">
+    <tr>
+      <!-- Отображение названия товара -->
+      <td th:text="${item.product.title}"></td>
+      <!-- Отображение количества товара -->
+      <td th:text="${item.quantity}"></td>
+      <!-- Отображение цены товара -->
+      <td th:text="${item.product.price}"></td>
+      <!-- Кнопка для удаления товара из корзины -->
+      <td>
+        <form th:action="@{/cart/remove}" method="post">
+          <input type="hidden" name="productId" th:value="${item.product.id}" />
+          <button type="submit">Удалить</button>
+        </form>
+      </td>
+    </tr>
+  </th:block>
+  </tbody>
+</table>
+
+
+<table class="itog">
+  <!--  <thead>-->
+  <!--  <tr>-->
+  <!--    <th></th>-->
+  <!--    <th></th>-->
+  <!--  </tr>-->
+  <!--  </thead>-->
+  <tbody>
+  <tr>
+    <td><p>Общая стоимость: <span th:text="${cart.totalPrice} + '₽'"></span></p></td>
+    <td th:if="${cart.totalPrice > 0}">
+      <button type="submit">Оформить заказ</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+<footer>
+  <a href="/"><img src="homee.png"></a>
+  <!--  <button onclick="location.href='/'">Главное меню</button>-->
+</footer>
+</html>
